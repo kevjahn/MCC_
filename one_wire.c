@@ -8,15 +8,16 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
-
+#include "bits.h"
+#include "avr_gpio.h"
 #include "one_wire.h"
 
 // macros privadas
-#define DQ_OUTPUT()		set_bit(DDRx,DQ)
-#define DQ_INPUT()		clr_bit(DDRx,DQ)
-#define CLR_DQ()		clr_bit(PORTx,DQ)
-#define SET_DQ()		set_bit(PORTx,DQ)
-#define TST_DQ()		tst_bit(PINx,DQ)
+#define DQ_OUTPUT()		SET_BIT(DDRx,DQ)
+#define DQ_INPUT()		CLR_BIT(DDRx,DQ)
+#define CLR_DQ()		CLR_BIT(PORTx,DQ)
+#define SET_DQ()		SET_BIT(PORTx,DQ)
+#define TST_DQ()		TST_BIT(PINx,DQ)
 
 //funcoes privadas
 uint8_t read_bit_1w();
@@ -86,7 +87,7 @@ uint8_t read_byte_1w()	//lê um byte do barramento
 	for (i=0;i<8;i++)		//lê oito bits iniciando pelo bit menos significativo
 	{
 		if (read_bit_1w()) 
-			set_bit(dado,i);
+			SET_BIT(dado,i);
 	}
 	return (dado);
 }
@@ -97,6 +98,6 @@ void write_byte_1w(uint8_t dado)	//escreve um byte no barramento
 	uint8_t i;
 
 	for (i=0; i<8; i++)		//envia o byte iniciando do bit menos significativo
-		write_bit_1w(tst_bit(dado,i));//escreve o bit no barramento
+		write_bit_1w(TST_BIT(dado,i));//escreve o bit no barramento
 }
 

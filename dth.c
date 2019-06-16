@@ -5,11 +5,8 @@
 #include "bits.h"
 #include "one_wire.h"
 
-void read_dth(){
-		uint8_t integral_rh, decimal_rh, integral_t, decimal_t, checksum;
-		integral_rh = read_byte_1w();		
-		decimal_rh = read_byte_1w();
-		integral_t = read_byte_1w();		
-		decimal_t = read_byte_1w();
-		checksum = read_byte_1w();
+uint8_t read_dth(){
+	uint8_t buffer;
+		buffer = read_byte_1w();
+		return buffer;
 }
