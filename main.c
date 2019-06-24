@@ -16,7 +16,7 @@
 #include "lib/avr_gpio.h"
 
 int main(){
-	uint8_t data;
+	uint8_t RH, T, ND;
 	_delay_ms(100);
 		FILE *debug = get_usart_stream();
 	USART_Init(B9600);
@@ -24,18 +24,15 @@ int main(){
 
 	fprintf(debug,"any\n\r");
 	while(1){
-		/*
-		reset_1w();						//reset do sensor (a resposta de presença é retornada mas não avaliada).
 
-		init_dht(data);*/
 		request_dht11();
 		response_dht11();
-		data = data_read();
-		//data = init_dht();
-		//data = init_dht();
+		RH = data_read();
+		ND = data_read();
+		T = data_read();
 		//data = init_dht();
 	//	data = init_dht();
-		fprintf(debug, "\n\rbit: %d\n\r", data);
+		fprintf(debug, "\n\rRH: %d \n T: %d\n\r", RH, T);
 		_delay_ms(500);
 
 	}
