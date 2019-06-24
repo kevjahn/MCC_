@@ -9,46 +9,34 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
-#include "bits.h"
+#include "lib/bits.h"
 #include "one_wire.h"
 #include "dth.h"
-#include "avr_usart.h"
-#include "avr_gpio.h"
+#include "lib/avr_usart.h"
+#include "lib/avr_gpio.h"
 
 int main(){
-
-	uint8_t integral_rh,i;
-
-	/* Obtem o stream de depuração */
+	uint8_t data;
+	_delay_ms(100);
 		FILE *debug = get_usart_stream();
 	USART_Init(B9600);
 
+
 	fprintf(debug,"any\n\r");
-	_delay_ms(1100);
 	while(1){
-		reset_1w();						//reset do sensor (a resposta de presenÃ§a Ã© retornada mas nÃ£o avaliada).
-		write_byte_1w(0xCC);			//comando para pular ROM (sÃ³ 1 dispositivo no barramento).
-		write_byte_1w(0x44);			//manda iniciar a conversÃ£o
+		/*
+		reset_1w();						//reset do sensor (a resposta de presença é retornada mas não avaliada).
 
-		reset_1w();
-		write_byte_1w(0xCC);
-		write_byte_1w(0xBE);			//avisa que quer ler a memoria
-
-		
-		integral_rh = read_byte_1w();
-				fprintf(debug,"resul:%d\n\r", integral_rh);
-				integral_rh = read_byte_1w();
-						fprintf(debug,"resul:%d\n\r", integral_rh);
-						integral_rh = read_byte_1w();
-								fprintf(debug,"resul:%d\n\r", integral_rh);
-								integral_rh = read_byte_1w();
-										fprintf(debug,"resul:%d\n\r", integral_rh);
-										integral_rh = read_byte_1w();
-												fprintf(debug,"resul:%d\n\r", integral_rh);
-		if(i>4){
-					i=0;
-				}
-		//fprintf(debug,"resul:%d\n\r", integral_rh);
+		init_dht(data);*/
+		request_dht11();
+		response_dht11();
+		data = data_read();
+		//data = init_dht();
+		//data = init_dht();
+		//data = init_dht();
+	//	data = init_dht();
+		fprintf(debug, "\n\rbit: %d\n\r", data);
 		_delay_ms(500);
+
 	}
 }

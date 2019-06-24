@@ -8,8 +8,8 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include "bits.h"
-#include "avr_gpio.h"
+#include "lib/bits.h"
+#include "lib/avr_gpio.h"
 #include "one_wire.h"
 
 // macros privadas
@@ -26,6 +26,7 @@ void write_bit_1w(uint8_t bit_1w);
 
 uint8_t reset_1w()	//inicializa os dispositivos no barramento
 {
+	uint8_t d;
 	DQ_OUTPUT();				//DQ como saída
 	CLR_DQ();				//DQ em nível zero por 480us
 	_delay_us(480);
@@ -34,10 +35,10 @@ uint8_t reset_1w()	//inicializa os dispositivos no barramento
 	_delay_us(60);
 
 	if(TST_DQ())			//se nao detectou a presença já retorna 1
-		return 1;
+		return d=1;
 		
 	_delay_us(420);			//o pulso de presença pode ter 240 us
-	return 0;				//retorna 0 para indicar sucesso
+	return d=0;				//retorna 0 para indicar sucesso
 }
 
 
