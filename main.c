@@ -14,9 +14,11 @@
 #include "dth.h"
 #include "lib/avr_usart.h"
 #include "lib/avr_gpio.h"
+#include "Controle_servo_motor.h"
 
 int main(){
-	uint8_t RH, T, ND;
+	uint8_t RH, T, ND, checksum;
+	init_servo();
 	_delay_ms(100);
 		FILE *debug = get_usart_stream();
 	USART_Init(B9600);
@@ -30,9 +32,10 @@ int main(){
 		RH = data_read();
 		ND = data_read();
 		T = data_read();
-		//data = init_dht();
-	//	data = init_dht();
-		fprintf(debug, "\n\rRH: %d \n T: %d\n\r", RH, T);
+		ND = data_read();
+		checksum = data_read();
+		fprintf(debug, "\n\rRH: %d \n T: %d C\n\r", RH, T);
+		ativa_motor(RH);
 		_delay_ms(500);
 
 	}

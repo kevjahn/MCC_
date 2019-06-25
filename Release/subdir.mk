@@ -4,16 +4,19 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Controle_servo_motor.c \
 ../dth.c \
 ../main.c \
 ../one_wire.c 
 
 OBJS += \
+./Controle_servo_motor.o \
 ./dth.o \
 ./main.o \
 ./one_wire.o 
 
 C_DEPS += \
+./Controle_servo_motor.d \
 ./dth.d \
 ./main.d \
 ./one_wire.d 

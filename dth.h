@@ -9,7 +9,7 @@
 #define DTH_H_
 
 uint8_t data_read();
-void response_dht();
+void response_dht11();
 void request_dht11();
 
 #endif /* DTH_H_ */
