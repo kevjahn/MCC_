@@ -1,45 +1,28 @@
-/*
- * main.c
- *
- *  Created on: Nov 10, 2016
- *      Author: xtarke
- */
+#define F_CPU 16000000UL
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include <avr/interrupt.h>
 
-#include "bits.h"
-#include "one_wire.h"
+#include "lib/dht11.h"
+#include "lib/modbus.h"
+#include "lib/avr_usart.h"
 
+int main() {
 
-int main(){
+//	FILE *debug = get_usart_stream();
+	USART_Init(B9600);
 
-
-	uint8_t integral_rh, decimal_rh, integral_t, decimal_t, checksum;
-
-
-	while(1){
-
-		reset_1w();						//reset do sensor (a resposta de presença é retornada mas não avaliada).
-		write_byte_1w(0xCC);			//comando para pular ROM (só 1 dispositivo no barramento).
-		write_byte_1w(0x44);			//manda iniciar a conversão
-
-		reset_1w();
-		write_byte_1w(0xCC);
-		write_byte_1w(0xBE);			//avisa que quer ler a memória
-
-		
-		integral_rh = read_byte_1w();		
-		decimal_rh = read_byte_1w();
-		integral_t = read_byte_1w();		
-		decimal_t = read_byte_1w();
-		checksum = read_byte_1w();
-		
+	while (1) {
+		if (dht_response()) {
+//			fprintf(debug, "Humidity: %d.%d temp: %d.%d\r\n",	get_dht_humidityHigh(),
+//										get_dht_humidityLow(),
+//																			get_dht_tempHigh(),
+//																			get_dht_tempLow());
+			modbusConfig(1, 5, get_dht_tempHigh());
+			modbus_tx();
+			modbusConfig(1, 6, get_dht_humidityHigh());
+			modbus_tx();
+		}
 		_delay_ms(500);
 	}
-
-
-
-	return 0;
 }
