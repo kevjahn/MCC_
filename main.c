@@ -36,7 +36,8 @@ int main(){
 		checksum = data_read();
 		fprintf(debug, "\n\rRH: %d \n T: %d C\n\r", RH, T);
 		ativa_motor(RH);
-		_delay_ms(500);
+		fprintf(debug,"any\n\r");
+		_delay_ms(3000);
 
 	}
 }
