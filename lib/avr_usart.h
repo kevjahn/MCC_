@@ -12,6 +12,7 @@
 #include <stdint.h>
 #include <avr/io.h>
 #include <stdio.h>
+#include <string.h>
 
 #ifndef _IO
 #define _IO volatile uint8_t

@@ -1,43 +1,36 @@
-/*
- * main.c
- *
- *  Created on: , 2019
- *      Author: kevin
- */
+#define F_CPU 16000000UL
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include <avr/interrupt.h>
 
-#include "lib/bits.h"
-#include "one_wire.h"
-#include "dth.h"
+#include "lib/dht11.h"
+#include "lib/modbus.h"
 #include "lib/avr_usart.h"
-#include "lib/avr_gpio.h"
-#include "Controle_servo_motor.h"
+#include "lib/controle_servo_motor.h"
 
-int main(){
-	uint8_t RH, T, ND, checksum;
-	init_servo();
-	_delay_ms(100);
-		FILE *debug = get_usart_stream();
+int main() {
+
+	uint8_t x;
+//	FILE *debug = get_usart_stream();
 	USART_Init(B9600);
+	init_servo();
 
-
-	fprintf(debug,"any\n\r");
-	while(1){
-
-		request_dht11();
-		response_dht11();
-		RH = data_read();
-		ND = data_read();
-		T = data_read();
-		ND = data_read();
-		checksum = data_read();
-		fprintf(debug, "\n\rRH: %d \n T: %d C\n\r", RH, T);
-		ativa_motor(RH);
-		fprintf(debug,"any\n\r");
-		_delay_ms(3000);
-
+	while (1) {
+		if (dht_response()) {
+//			fprintf(debug, "Humidity: %d.%d temp: %d.%d\r\n",	get_dht_humidityHigh(),
+//										get_dht_humidityLow(),
+//																			get_dht_tempHigh(),
+//																			get_dht_tempLow());
+			modbusConfig(1, 5, get_dht_tempHigh());
+			modbus_tx();
+			modbusConfig(1, 6, get_dht_humidityHigh());
+			modbus_tx();
+			modbusConfig(2, 1, 1);
+			modbus_tx();
+			modbusConfig(2, 1, x);
+			modbus_rx();
+			ativa_motor(x);
+		}
+		_delay_ms(500);
 	}
 }

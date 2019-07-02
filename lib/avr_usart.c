@@ -30,11 +30,17 @@ void USART_Init(uint16_t bauds){
 	USART_0->UCSR_A = 0;
 	/* Enable TX and RX */
 	USART_0->UCSR_B = SET(RXEN0) | SET(TXEN0) | SET(RXCIE0);
-	/* Asynchronous mode:
+
+	// Enable interrupt RX, TX
+	 USART_0->UCSR_B = SET(RXCIE0) | SET(TXCIE0);
+
+	 /* Asynchronous mode:
 	 * - 8 data bits
 	 * - 1 stop bit
 	 * - no parity 	 */
 	USART_0->UCSR_C = SET(UCSZ01) | SET(UCSZ00);
+
+	USART_0->UCSR_B = SET(RXEN0) | SET(TXEN0) | SET(RXCIE0) | SET(RXCIE0) | SET(TXCIE0);
 }
 
 
@@ -64,16 +70,6 @@ static int usart_putchar(char c, FILE *fp){
 }
 
 
-//ISR(USART_RX_vect){
-//
-//
-//
-//
-//}
-//
-//ISR(USART_TX_vect){
-//
-//
-//
-//
-//}
+ISR(USART_RX_vect) {
+
+}

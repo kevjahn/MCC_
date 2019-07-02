@@ -4,13 +4,31 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../lib/avr_usart.c 
+../lib/Controle_servo_motor.c \
+../lib/avr_spi.c \
+../lib/avr_twi_master.c \
+../lib/avr_usart.c \
+../lib/dth11.c \
+../lib/modbus.c \
+../lib/one_wire.c 
 
 OBJS += \
-./lib/avr_usart.o 
+./lib/Controle_servo_motor.o \
+./lib/avr_spi.o \
+./lib/avr_twi_master.o \
+./lib/avr_usart.o \
+./lib/dth11.o \
+./lib/modbus.o \
+./lib/one_wire.o 
 
 C_DEPS += \
-./lib/avr_usart.d 
+./lib/Controle_servo_motor.d \
+./lib/avr_spi.d \
+./lib/avr_twi_master.d \
+./lib/avr_usart.d \
+./lib/dth11.d \
+./lib/modbus.d \
+./lib/one_wire.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
