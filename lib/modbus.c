@@ -25,33 +25,56 @@ uint16_t CRC16_2(uint8_t *buf, int len)
 	return crc;
 }
 
-void modbusConfig(uint8_t cmd, uint8_t reg, uint8_t data) {
+void modbus_tx(uint8_t reg, uint8_t data) {
 
 	uint16_t crc;
+	uint8_t i;
 
-	(cmd == 1) ? (pkg[1] = 0x01) : (pkg[1] = 0x02);
-
+	pkg[1] = 0x01;
 	pkg[2] = reg >> 8;
 	pkg[3] = reg & 0xff;
 	pkg[4] = data >> 8;
 	pkg[5] = data & 0xff;
 
-	crc = CRC16_2(pkg, 6);
+	crc = CRC16_2(pkg,6);
 
 	pkg[6] = crc >> 8;
 	pkg[7] = crc & 0xff;
-}
-
-void modbus_tx() {
-	uint8_t i;
 
 	for (i=0; i < 8; i++)
 		USART_tx(pkg[i]);
+
+	for (i=0; i < 8;i++)
+		rx_pkg[i] = USART_rx();
+
+	_delay_ms(500);
 }
 
-void modbus_rx() {
+void modbus_rx(uint8_t reg) {
+
+	uint16_t crc;
 	uint8_t i;
 
-	for (i=0; i < 14;i++)
+	pkg[1] = 0x02;
+	pkg[2] = reg >> 8;
+	pkg[3] = reg & 0xff;
+	pkg[4] = 0x00;
+	pkg[5] = 0x01;
+
+	crc = CRC16_2(pkg,6);
+
+	pkg[6] = crc >> 8;
+	pkg[7] = crc & 0xff;
+
+	for (i=0; i < 8; i++)
+		USART_tx(pkg[i]);
+
+	for (i=0; i < 8;i++)
 		rx_pkg[i] = USART_rx();
+
+	_delay_ms(500);
+}
+
+uint8_t modbus_get_data() {
+	return (rx_pkg[5]);
 }

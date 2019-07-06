@@ -14,7 +14,7 @@ uint8_t dht_response() {
 		dht11_data[i]  = read_byte_1w();
 		sum += dht11_data[i];
 	}
-	return (!(sum == read_byte_1w()));
+	return ((sum == read_byte_1w()));
 }
 
 uint8_t get_dht_humidityHigh() {
