@@ -15,7 +15,7 @@ O projeto consiste em desenvolver uma aplicação prática utilizando:
 
   Com as informações de temperatura será controlado o ângulo do servo motor, o valor do ângulo será o mesmo da temperatura. 
 
-  ![1561721760936](C:\Users\User\AppData\Roaming\Typora\typora-user-images\1561721760936.png)
+  ![](figuras\0.PNG)
 
 ## DHT11
 
@@ -31,7 +31,7 @@ O projeto consiste em desenvolver uma aplicação prática utilizando:
 
   Visão geral do processo de comunicação:
 
-  ![1561378848829](C:\Users\User\AppData\Roaming\Typora\typora-user-images\1561378848829.png)
+  ![](figuras\1.PNG)
 
 
 ## Servo Motor
@@ -43,5 +43,11 @@ O projeto consiste em desenvolver uma aplicação prática utilizando:
 
 ## Modbus
 
-O módulo WiFi 
+O módulo WiFi ESO-01 possui um firmware customizado. A comunicação entre
+o módulo WiFi e o ATmega328P deverá ser feita utilizando a porta serial (UART) de ambos
+os microcontrolador e com uma simplicação do protocolo Modbus RTU.A comunicação entre
+o módulo WiFi e o ATmega328P deverá ser feita utilizando a porta serial (UART) de ambos
+os microcontrolador e com uma simplicação do protocolo Modbus RTU.  
+
+O frame Modbus RTU é constituído de 9 bytes, sendo o primeiro o endereço do dispositivo que deseja se comunicar. O segundo byte é o comando de escrita e leitura. O terceiro e o quarto, são os registradores do dispositivos que deseja-se ler ou escrever e o quarto é o dado em si. Ainda, no ultimo byte, temos o CRC. 
 

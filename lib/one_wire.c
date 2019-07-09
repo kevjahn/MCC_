@@ -28,7 +28,7 @@ uint8_t reset_1w()
 	_delay_us(80);
 
 	if (!TST_DQ())
-		return 1;
+		return 2;
 	_delay_us(80);
 
 	return 0;
