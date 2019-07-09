@@ -1,5 +1,0 @@
-SSID: BDR_xxx
-senha: esp-open-rtos
-navegador: 172.16.0.1
-wifi config
-wifi station
